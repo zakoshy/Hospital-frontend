@@ -408,58 +408,68 @@ const Department = () => {
       )}
 
       {selectedVisit && (
-        <form onSubmit={handleSubmit}>
-          <div className="card p-3 mb-3">
-            <h5>Patient Details</h5>
-            <p>
-              <strong>Name:</strong> {selectedVisit.name}
-            </p>
-            <p>
-              <strong>ID:</strong> {selectedVisit.idNumber}
-            </p>
-            <p>
-              <strong>Status:</strong> {selectedVisit.status}
-            </p>
+  <form onSubmit={handleSubmit}>
+    <div className="card p-3 mb-3">
+      <h5>Patient Details</h5>
+      <p>
+        <strong>Name:</strong> {selectedVisit.name}
+      </p>
+      <p>
+        <strong>ID:</strong> {selectedVisit.idNumber}
+      </p>
+      <p>
+        <strong>Status:</strong> {selectedVisit.status}
+      </p>
 
-            {selectedVisit.labResults &&
-              Object.keys(selectedVisit.labResults).length > 0 && (
-                <div className="card p-3 mb-3 border-success">
-                  <h5 className="text-success">Lab Results</h5>
-                  {Object.entries(selectedVisit.labResults).map(
-                    ([test, values]) => (
-                      <div key={test}>
-                        <strong>{test}</strong>
-                        {typeof values === "object" &&
-                        values !== null ? (
-                          <ul>
-                            {Object.entries(values).map(
-                              ([k, v]) => (
-                                <li key={k}>
-                                  {k}: {v}
-                                </li>
-                              )
-                            )}
-                          </ul>
-                        ) : (
-                          <p>{values}</p>
-                        )}
-                      </div>
-                    )
+      {selectedVisit.labResults &&
+        Object.keys(selectedVisit.labResults).length > 0 && (
+          <div className="card p-3 mb-3 border-success">
+            <h5 className="text-success">Lab Results</h5>
+            {Object.entries(selectedVisit.labResults).map(
+              ([test, values]) => (
+                <div key={test}>
+                  <strong>{test}</strong>
+                  {typeof values === "object" &&
+                  values !== null ? (
+                    <ul>
+                      {Object.entries(values).map(
+                        ([k, v]) => (
+                          <li key={k}>
+                            {k}: {v}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  ) : (
+                    <p>{values}</p>
                   )}
                 </div>
-              )}
-
-            <button
-              type="button"
-              className="btn btn-warning w-100 mt-2"
-              onClick={handleAdmitClick}
-              disabled={selectedVisit.status === "admitted"}
-            >
-              {selectedVisit.status === "admitted"
-                ? "Patient Already Admitted"
-                : "Admit Patient"}
-            </button>
+              )
+            )}
           </div>
+        )}
+
+      {selectedVisit.status === "pending" && !labReferral && (
+        <button
+          type="button"
+          className="btn btn-outline-success w-100 mb-3"
+          onClick={() => setLabReferral(true)}
+        >
+          Send to Lab
+        </button>
+      )}
+
+      <button
+        type="button"
+        className="btn btn-warning w-100 mt-2"
+        onClick={handleAdmitClick}
+        disabled={selectedVisit.status === "admitted"}
+      >
+        {selectedVisit.status === "admitted"
+          ? "Patient Already Admitted"
+          : "Admit Patient"}
+      </button>
+    </div>
 
           {showAdmission && (
             <div className="card p-3 mb-3 border-warning">
