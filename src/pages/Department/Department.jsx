@@ -554,6 +554,44 @@ const Department = () => {
               </select>
             </>
           )}
+           {selectedVisit && !labReferral && (
+        <div className="card p-3 mb-3">
+          <h5>Prescription</h5>
+          <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Search medicine..."
+            value={medicineSearchTerm}
+            onChange={handleMedicineSearch}
+          />
+          {medicineSuggestions.length > 0 && (
+            <ul className="list-group">
+              {medicineSuggestions.map((med) => (
+                <li
+                  key={med._id}
+                  className="list-group-item list-group-item-action"
+                  onClick={() => handleAddMedicine(med)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {med.name} — {med.form} — {med.strength}
+                </li>
+              ))}
+            </ul>
+          )}
+          {prescriptionList.length > 0 && (
+            <div className="mt-3">
+              <h6>Prescribed Medicines:</h6>
+              <ul>
+                {prescriptionList.map((med, idx) => (
+                  <li key={idx}>
+                    {med.name} — {med.form} — {med.strength}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
           <button
             type="submit"
