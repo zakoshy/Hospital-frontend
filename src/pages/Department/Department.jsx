@@ -308,6 +308,30 @@ const Department = () => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
+    const handleMedicineSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setMedicineSearchTerm(term);
+    const suggestions = medicineList.filter((med) =>
+      med.name.toLowerCase().includes(term)
+    );
+    setMedicineSuggestions(suggestions);
+  };
+
+  const handleAddMedicine = (medicine) => {
+    if (
+      !prescriptionList.find(
+        (m) =>
+          m.name === medicine.name &&
+          m.form === medicine.form &&
+          m.strength === medicine.strength
+      )
+    ) {
+      setPrescriptionList([...prescriptionList, medicine]);
+      setMedicineSuggestions([]);
+      setMedicineSearchTerm("");
+    }
+  };
+
 
   return (
     <div
